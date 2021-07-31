@@ -1,0 +1,28 @@
+Tải MongoDB về xong tạo Database qr_code 
+
+Mở folder Server => Bật terminal chạy npm start
+
+Link tham khảo cách đọc API ở react:
+https://viblo.asia/p/huong-dan-xay-dung-api-don-gian-voi-nodejs-va-mysql-ket-hop-frontend-dung-reactjs-1VgZvNmYZAw#_running-test-3
+https://viblo.asia/p/nodejsreact-hoc-cach-lam-app-bang-nodejs-voi-react-phan-1-RQqKLzzpl7z#_chuc-nang-dang-nhap-1
+
+// api login
+URL: http://localhost:7000/api/login (POST)
+Gửi: username,password
+Nhận về: token
+
+// api register (cái này sử dụng postman để demo chứ không cần tạo FE đâu, nếu thích nhập tay thì khỏi xài)
+URL: http://localhost:7000/api/register (POST)
+Gửi: username,password,role
+Nhận về: thông báo đăng ký thành công
+
+// api getinfouser (cái này sử dụng tài khoản có role là admin, role khác chưa làm :v)
+URL: http://localhost:7000/api/info (GET)
+Gửi: token
+Nhận về: username,role
+
+// api getalluser (cái nãy sử dụng tài khoản có role là admin)
+URL: http://localhost:7000/api/all_user?page=n (GET)
+Gửi: token (check phải admin không vì chỉ admin mới xem được toàn bộ user)
+Nhận về: toàn bộ user (có thêm phân trang)
+https://jasonwatmore.com/post/2019/07/18/react-node-server-side-pagination-tutorial-example
