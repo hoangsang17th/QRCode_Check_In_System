@@ -22,7 +22,7 @@ function Profile(){
                                             <div className="row">
                                                 <div className="col-xl-2 col-lg-12 col-md-4">
                                                     <div className="mt-4 pr-md-4">
-                                                        <img src={logo} className="w-100"/>
+                                                        <img src={logo} className="w-100" alt=""/>
                                                         <p className="text-center">You are Manager</p>
                                                     </div>
                                                 </div>

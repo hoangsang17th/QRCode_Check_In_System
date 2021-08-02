@@ -30,18 +30,21 @@ function Tickets(){
                             <form action="" method="post">
                                 <div className="row">
                                     <div className="col-4">
-                                        <input type="name" className="form-control" placeholder="Phone or Name" required />
+                                        <input type="name" className="form-control" placeholder="Tên/ SĐT" required />
                                     </div>
                                     <div className="col-4">
                                         <select className="form-control" required>
-                                            <option selected="selected" value="1">Ticket 1</option>
-                                            <option value="2">Ticket 2</option>
-                                            <option value="3">Ticket 3</option>
+                                            <option selected="selected" value="vl1">Vé Người Lớn 1</option>
+                                            <option value="vl2">Vé Người Lớn 2</option>
+                                            <option value="vl3">Vé Người Lớn 3</option>
+                                            <option value="vn1">Vé Trẻ Nhỏ 1</option>
+                                            <option value="vn2">Vé Trẻ Nhỏ 2</option>
+                                            <option value="vl3">Vé Trẻ Nhỏ 3</option>
                                         </select>
                                     </div>
                                     <div className="col-4">
                                         <button type="button" className="btn btn-outline-primary btn-block form-control" data-toggle="modal" data-target="#printModal">
-                                            Add
+                                            Xuất Vé
                                         </button>
                                     </div>
                                 </div>

@@ -5,7 +5,7 @@ import Auth from './pages/Login';
 import Profile from './pages/Profile';
 import Tickets from './pages/Tickets';
 import Users from './pages/Users';
-import Regions from './pages/Regions';
+import Ports from './pages/Ports';
 import Scan from './pages/Scan';
 import Types from './pages/Types';
 import 'jquery/dist/jquery.min.js';
@@ -23,7 +23,7 @@ function App() {
       <Switch>
         <Route path='/' exact component={Tickets} />
         <Route path='/Users' component={Users} />
-        <Route path='/Regions' component={Regions} />
+        <Route path='/Ports' component={Ports} />
         <Route path='/Types' component={Types} />
         <Route path='/Scan' component={Scan} />
         <Route path='/Login' component={Auth} />
