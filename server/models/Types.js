@@ -15,10 +15,10 @@ const TypeSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "Users"
     },
-    typePort:{
-        type: Array,
-        require: true,
-    },
+    typePort:[{
+        type: Schema.Types.ObjectId,
+        ref: "Ports"
+    }],
     typeStatus:{
         type: Boolean,
     },

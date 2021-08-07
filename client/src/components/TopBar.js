@@ -15,7 +15,7 @@ function TopBar() {
               </li>
               <li className="nav-item theme-text">
                 <Link to="/">
-                  <a href className="nav-link"> QRCode </a>
+                  <a href className="nav-link"> Asia Park </a>
                 </Link>
               </li>
             </ul>

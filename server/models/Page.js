@@ -2,6 +2,11 @@ const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
 const PageSchema = new Schema({
+    pageID:{
+        type: String,
+        require: true,
+        unique: true
+    },
     pageStatus:{
         type: Boolean,
         require: true,
@@ -18,4 +23,4 @@ const PageSchema = new Schema({
     },
 })
 
-module.exports = mongoose.model("Pages", PageSchema)
+module.exports = mongoose.model("Page", PageSchema)

@@ -14,8 +14,9 @@ const UserSchema = new Schema({
     userPassword:{
         type: String,
         require: true,
+        default: "@si@P@rk"
     },
-    userPossition:{
+    userPosition:{
         type: String,
         enum: ["Manager", "Staff"],
         default: "Staff",

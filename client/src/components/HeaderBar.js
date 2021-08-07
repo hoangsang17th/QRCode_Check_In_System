@@ -17,7 +17,7 @@ function HeaderBar() {
                     <Link to="/">
                         <a className="navbar-brand" href>
                             <img src={logo} className="img-fluid" alt="logo"/>
-                            <span className="navbar-brand-name">QRCode</span>
+                            <span className="navbar-brand-name">Asia Park</span>
                         </a>
                     </Link>
                 </div>

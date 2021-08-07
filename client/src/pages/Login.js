@@ -67,28 +67,8 @@ function Login() {
                                         <input onChange={onChangePassword} id="password" name="password" type="password" className="form-control" placeholder="Password" />
                                     </div>
                                     <div className="d-sm-flex justify-content-between">
-                                        <div className="field-wrapper toggle-pass">
-                                            <p className="d-inline-block">Show Password</p>
-                                            <label className="switch s-primary">
-                                                <input type="checkbox" id="toggle-password" className="d-none" />
-                                                <span className="slider round"></span>
-                                            </label>
-                                        </div>
-                                        <div className="field-wrapper">
-                                            <button className="btn btn-primary" onClick={loginClick}>Log In</button>
-                                        </div>
+                                        <button className="btn btn-primary btn-block" onClick={loginClick}>Log In</button>
                                     </div>
-                                    {/* <div className="field-wrapper text-center keep-logged-in">
-                                        <div className="n-chk new-checkbox checkbox-outline-primary">
-                                            <label className="new-control new-checkbox checkbox-outline-primary">
-                                            <input type="checkbox" className="new-control-input" />
-                                            <span className="new-control-indicator"></span>Keep me logged in
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div className="field-wrapper">
-                                        <a href="/forgotpassword" className="forgot-pass-link">Forgot Password?</a>
-                                    </div> */}
                                 </div>
                             </form>
                         </div>    

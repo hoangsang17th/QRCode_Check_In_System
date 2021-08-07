@@ -12,10 +12,6 @@ import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    {/* Ngay chỗ này xác định người dùng đã đăng nhập hay chưa ?*/}
-    {/* Nếu chưa chuyển người dùng tới trang Auth (Login) */}
-    {/* <Auth /> */}
-    {/* Nếu đã đăng nhập chuyển tới phần App (Bên trong này đã sử lý route) */}
     <App />
   </React.StrictMode>,
   document.getElementById('root')
