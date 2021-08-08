@@ -7,6 +7,8 @@ const authRouter = require("./routes/Auth")
 const userRouter = require("./routes/User")
 const portRouter = require("./routes/Port")
 const pageRouter = require("./routes/Page")
+const ticketRouter = require("./routes/Ticket")
+const typeRouter = require("./routes/Type")
 
 
 const connectDB = async () =>{
@@ -31,6 +33,8 @@ app.use("/api/Auth", authRouter)
 app.use("/api/Users", userRouter)
 app.use("/api/Ports", portRouter)
 app.use("/api/Page", pageRouter)
+app.use("/api/Tickets", ticketRouter)
+app.use("/api/Types", typeRouter)
 
 
 const PORT = 5000

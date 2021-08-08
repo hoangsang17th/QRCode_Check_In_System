@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Page = require("../models/Page")
 const verifyTokenManager = require("../middleware/Auth_Manager")
+const verifyToken = require('../middleware/Auth')
 // Thay đổi trạng thái trang
 // Hoạt dộng hoặc không hoạt dộng
 // Không hoạt dộng thì Không thể tạo vé và sẽ không hiển thị thông tin vé đã bán đối với nhân viên
@@ -27,10 +28,12 @@ router.put("/update", verifyTokenManager, async(req, res) => {
     try {
         const pageUser = req.userId
         const page = await Page.findOne({pageID: "Asia_Park"})
+        var today = new Date();
+        var utc = today.getTime() + 25200000;
         let updatePage = {
             pageStatus: pageStatus,
             pageUser: pageUser,
-            updatedAt: new Date
+            updatedAt: new Date(utc)
         }
         console.log("FinTEST Page: "+ page._id)
         const pageUpdateCondition = {pageID: "Asia_Park"}
@@ -46,20 +49,16 @@ router.put("/update", verifyTokenManager, async(req, res) => {
 })
 
 
-// router.post("/view", async(req, res) => {
-//     const{pageID, pageUser} = req.body
-    
-//     try {
-//         const page = await Page.findOne({pageID})
-//         const newPage = Page({
-//             pageID: pageID,
-//             pageUser: pageUser,
-//         })
-//         await newPage.save()
-
-//         res.json({success: true, message: `Create successful Page: ${newPage.pageID}`})
-//     } catch (error) {
-//         console.log("FinTEST Ports: " + error.message)
-//     }
-// })
+router.get("/view", verifyToken, async(req, res) => {
+    try {
+        const viewPage = await Page.find().populate("pageUser", [
+            "userName",
+            "userEmail",
+            "userPosition"
+        ])
+        res.json({success: true, message: `Site query successful!`, viewPage})
+    } catch (error) {
+        console.log("FinTEST Page: " + error.message)
+    }
+})
 module.exports = router

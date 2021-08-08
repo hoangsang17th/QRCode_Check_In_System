@@ -1,10 +1,11 @@
 POST http://localhost:5000/api/users/create
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTBiYTI4MGM2NWMyMjM2NzgwZTZhNzUiLCJ1c2VyRW1haWwiOiJwaHNhbmc0OUBnbWFpbC5jb20iLCJ1c2VyUG9zaXRpb24iOiJNYW5hZ2VyIiwiaWF0IjoxNjI4NDEyMTk0fQ.uI2dzzDWgEMbo7ShObuYdIxq5JSQzWH27Ayzpm09VZ8
 
 {
-    "userEmail": "phsang49@gmail.com",
-    "userPassword": "phsang49@gmail.com",
-    "userPossition": "Staff"
+    "userEmail": "system@park.com",
+    "userName": "System",
+    "userPossition": "System"
 }
 ####
 POST http://localhost:5000/api/auth/login
@@ -15,17 +16,22 @@ Content-Type: application/json
     "userPassword": "phsang49@gmail.com"
 }
 
+# {
+#     "userEmail": "system@park.com",
+#     "userPassword": "@si@P@rk"
+# }
+
 #####
 PUT http://localhost:5000/api/auth/update
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTBiYTJlZGM2NWMyMjM2NzgwZTZhNzkiLCJ1c2VyRW1haWwiOiJzdGFmZkBnbWFpbC5jb20iLCJ1c2VyUG9zaXRpb24iOiJTdGFmZiIsImlhdCI6MTYyODMyNjY2Nn0.25weLR9ncoPEdcm1XQQlWkBOE9yFLWpcphrAXYz1ZRc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTBmOTk3MWM4ZGQwYTE3MDhjMzQwYWYiLCJpYXQiOjE2Mjg0MTIyNzN9.1cX2OMh2zUnm3V7y4M3jRftQ35vEc01B_kP7-9EJ59k
 
 {
-    "userName": "Staff Aisa_Park",
+    "userName": "System Aisa_Park",
     "userBirthday": "2001-09-04T00:00:00.155+00:00",
     "userAddress": "Ngũ Hành Sơn, Đà Nẵng, Việt Nam",
-    "userPassword": "staff@gmail.com",
-    "userNewPassword": ""
+    "userPassword": "@si@P@rk",
+    "userNewPassword": "system@park.com"
 }
 
 #####
@@ -107,4 +113,97 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTBiY
 
 {
     "pageStatus" : "true"
+}
+#####
+GET http://localhost:5000/api/Page/view
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTBiYTI4MGM2NWMyMjM2NzgwZTZhNzUiLCJ1c2VyRW1haWwiOiJwaHNhbmc0OUBnbWFpbC5jb20iLCJ1c2VyUG9zaXRpb24iOiJNYW5hZ2VyIiwiaWF0IjoxNjI4MzQ0MTU3fQ.79gWjvFPkB_ufTb8WhvK29BpR96xJY6YwW_Gqg4q4Bk
+
+####
+POST http://localhost:5000/api/Types/create
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTBiYTI4MGM2NWMyMjM2NzgwZTZhNzUiLCJ1c2VyRW1haWwiOiJwaHNhbmc0OUBnbWFpbC5jb20iLCJ1c2VyUG9zaXRpb24iOiJNYW5hZ2VyIiwiaWF0IjoxNjI4MzQ0MTU3fQ.79gWjvFPkB_ufTb8WhvK29BpR96xJY6YwW_Gqg4q4Bk
+
+{
+    "typeName": "Child ticket",
+    "typePrice": "35000",
+    "typePorts": ["610ba8b7c65c2236780e6a8b", "610ba686c65c2236780e6a83", "610ba8e5c65c2236780e6a8d"],
+    "typeStatus": "true"
+}
+####
+GET http://localhost:5000/api/Types/view
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTBiYTI4MGM2NWMyMjM2NzgwZTZhNzUiLCJ1c2VyRW1haWwiOiJwaHNhbmc0OUBnbWFpbC5jb20iLCJ1c2VyUG9zaXRpb24iOiJNYW5hZ2VyIiwiaWF0IjoxNjI4MzQ0MTU3fQ.79gWjvFPkB_ufTb8WhvK29BpR96xJY6YwW_Gqg4q4Bk
+
+####
+GET http://localhost:5000/api/Types/view/610f3f49e303895340c408ef
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTBiYTI4MGM2NWMyMjM2NzgwZTZhNzUiLCJ1c2VyRW1haWwiOiJwaHNhbmc0OUBnbWFpbC5jb20iLCJ1c2VyUG9zaXRpb24iOiJNYW5hZ2VyIiwiaWF0IjoxNjI4MzQ0MTU3fQ.79gWjvFPkB_ufTb8WhvK29BpR96xJY6YwW_Gqg4q4Bk
+
+
+####
+DELETE http://localhost:5000/api/Types/delete/610f3d77b89db6283c747ad2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTBiYTI4MGM2NWMyMjM2NzgwZTZhNzUiLCJ1c2VyRW1haWwiOiJwaHNhbmc0OUBnbWFpbC5jb20iLCJ1c2VyUG9zaXRpb24iOiJNYW5hZ2VyIiwiaWF0IjoxNjI4MzQ0MTU3fQ.79gWjvFPkB_ufTb8WhvK29BpR96xJY6YwW_Gqg4q4Bk
+####
+PUT http://localhost:5000/api/Types/update/610f3f49e303895340c408ef
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTBiYTI4MGM2NWMyMjM2NzgwZTZhNzUiLCJ1c2VyRW1haWwiOiJwaHNhbmc0OUBnbWFpbC5jb20iLCJ1c2VyUG9zaXRpb24iOiJNYW5hZ2VyIiwiaWF0IjoxNjI4MzQ0MTU3fQ.79gWjvFPkB_ufTb8WhvK29BpR96xJY6YwW_Gqg4q4Bk
+
+{
+    "typeName": "Child ticket",
+    "typePrice": "40000",
+    "typePorts": ["610ba8b7c65c2236780e6a8b", "610ba686c65c2236780e6a83", "610ba8e5c65c2236780e6a8d"],
+    "typeStatus": "false"
+}
+
+####
+POST http://localhost:5000/api/Tickets/create
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTBiYTI4MGM2NWMyMjM2NzgwZTZhNzUiLCJ1c2VyRW1haWwiOiJwaHNhbmc0OUBnbWFpbC5jb20iLCJ1c2VyUG9zaXRpb24iOiJNYW5hZ2VyIiwiaWF0IjoxNjI4MzQ0MTU3fQ.79gWjvFPkB_ufTb8WhvK29BpR96xJY6YwW_Gqg4q4Bk
+
+{
+    "ticketCustomer": "Hoàng Long",
+    "ticketType": "610f3f49e303895340c408ef"
+}
+
+####
+GET http://localhost:5000/api/Tickets/viewStaff
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTBiYTI4MGM2NWMyMjM2NzgwZTZhNzUiLCJ1c2VyRW1haWwiOiJwaHNhbmc0OUBnbWFpbC5jb20iLCJ1c2VyUG9zaXRpb24iOiJNYW5hZ2VyIiwiaWF0IjoxNjI4Mzk1MjYwfQ.0v56Dg8SUjpSJIxgiF7RIDYq_gesZpCaDnnGJr95DO0
+
+####
+GET http://localhost:5000/api/Tickets/viewManager
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTBiYTI4MGM2NWMyMjM2NzgwZTZhNzUiLCJ1c2VyRW1haWwiOiJwaHNhbmc0OUBnbWFpbC5jb20iLCJ1c2VyUG9zaXRpb24iOiJNYW5hZ2VyIiwiaWF0IjoxNjI4Mzk1MjYwfQ.0v56Dg8SUjpSJIxgiF7RIDYq_gesZpCaDnnGJr95DO0
+
+####
+GET http://localhost:5000/api/Tickets/viewStaff/610f78feeb4b961728753c5c
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTBiYTJlZGM2NWMyMjM2NzgwZTZhNzkiLCJ1c2VyRW1haWwiOiJzdGFmZkBnbWFpbC5jb20iLCJ1c2VyUG9zaXRpb24iOiJTdGFmZiIsImlhdCI6MTYyODQwNDcxNH0.XmFagEjsKfpZ8AYXj3mxPvn5WTe4nkJQ-9h_8q_7vno
+
+####
+GET http://localhost:5000/api/Tickets/viewManager/610f78feeb4b961728753c5c
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTBiYTI4MGM2NWMyMjM2NzgwZTZhNzUiLCJ1c2VyRW1haWwiOiJwaHNhbmc0OUBnbWFpbC5jb20iLCJ1c2VyUG9zaXRpb24iOiJNYW5hZ2VyIiwiaWF0IjoxNjI4Mzk1MjYwfQ.0v56Dg8SUjpSJIxgiF7RIDYq_gesZpCaDnnGJr95DO0
+
+####
+PUT http://localhost:5000/api/Tickets/updateManager/610f78feeb4b961728753c5c
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTBiYTI4MGM2NWMyMjM2NzgwZTZhNzUiLCJ1c2VyRW1haWwiOiJwaHNhbmc0OUBnbWFpbC5jb20iLCJ1c2VyUG9zaXRpb24iOiJNYW5hZ2VyIiwiaWF0IjoxNjI4Mzk1MjYwfQ.0v56Dg8SUjpSJIxgiF7RIDYq_gesZpCaDnnGJr95DO0
+
+{
+    "ticketCustomer": "Hoàng Hải",
+    "ticketType": "610f380a245335462c59e26f",
+    "ticketStatus": "false"
+}
+
+####
+PUT http://localhost:5000/api/Tickets/updateStaff/610f78feeb4b961728753c5c
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTBiYTI4MGM2NWMyMjM2NzgwZTZhNzUiLCJ1c2VyRW1haWwiOiJwaHNhbmc0OUBnbWFpbC5jb20iLCJ1c2VyUG9zaXRpb24iOiJNYW5hZ2VyIiwiaWF0IjoxNjI4Mzk1MjYwfQ.0v56Dg8SUjpSJIxgiF7RIDYq_gesZpCaDnnGJr95DO0
+
+{
+    "ticketCustomer": "Hoàng Pro",
+    "ticketType": "610f380a245335462c59e26f"
 }

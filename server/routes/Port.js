@@ -78,12 +78,14 @@ router.put("/update/:id" ,verifyTokenManager, async(req, res) => {
         return res.status(400).json({success: false, message: "Port Name is required"})
     }
     try {
+        var today = new Date();
+        var utc = today.getTime() + 25200000;
         let updatePort = {
             portName: portName,
             portUser: req.userId,
             portDescription: portDescription,
             portStatus: portStatus,
-            updatedAt: new Date
+            updatedAt: new Date(utc)
         }
         const portUpdateCondition = {_id: req.params.id}
         updatePort = await Port.findOneAndUpdate(portUpdateCondition, updatePort, {new: true})

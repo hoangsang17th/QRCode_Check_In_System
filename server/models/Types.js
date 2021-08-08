@@ -15,7 +15,7 @@ const TypeSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "Users"
     },
-    typePort:[{
+    typePorts:[{
         type: Schema.Types.ObjectId,
         ref: "Ports"
     }],

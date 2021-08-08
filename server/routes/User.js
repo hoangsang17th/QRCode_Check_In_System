@@ -11,23 +11,23 @@ const verifyTokenManager = require("../middleware/Auth_Manager")
 // @Access Private
 
 router.post("/create", verifyTokenManager, async (req, res) =>{
-    const {userEmail, userPassword, userPosition} = req.body
-    if(!userEmail || !userPassword){
+    const {userEmail, userName, userPosition} = req.body
+    if(!userEmail || !userName){
         // Một biến mà bằng rỗng hoạc null thì được định nghĩa là false
         // Nếu 1 trong hai biến là true thì gửi lại tb lỗi
-        return res.status(400).json({success: false, message: "Missing Email and/ or Password"})
+        return res.status(400).json({success: false, message: "Missing Email and/ or Name"})
     }
     try {
         // Check for existing user
         const user = await User.findOne({userEmail})
-
+        userPassword = await argon2.hash("@si@P@rk")
         if(user){
             return res.status(400).json({success: false, message: "Email arready taken"})
         }
-        const hashedPassword = await argon2.hash(userPassword)
         const newUser = new User({
             userEmail: userEmail, 
-            userPassword: hashedPassword,
+            userName: userName,
+            userPassword: userPassword,
             userPosition: userPosition
         })
         await newUser.save()
@@ -55,10 +55,12 @@ router.put("/update/:id", verifyTokenManager, async (req, res) =>{
         if(!user){
             return res.status(400).json({success: false, message: "User not found", userId})
         }
+        var today = new Date();
+        var utc = today.getTime() + 25200000;
         let updateUser = {
             userPosition: userPosition,
             userStatus: userStatus,
-            updatedAt: new Date
+            updatedAt: new Date(utc)
         }
         const userUpdateCondition = {_id: req.params.id}
         updateUser = await User.findOneAndUpdate(userUpdateCondition, updateUser, {new: true})

@@ -21,7 +21,6 @@ router.post("/login", async (req, res) =>{
     try {
         // Check for existing user
         const user = await User.findOne({userEmail})
-
         if(!user){
             return res.status(400).json({success: false, message: "Incorrect Email"})
         }
@@ -32,11 +31,12 @@ router.post("/login", async (req, res) =>{
         if(!user.userStatus){
             return res.json({success: false, message: "Your account has been locked. Please contact the manager for more information."})
         }
+        console.log(user.userPosition)
         const accessToken = jwt.sign({userId: user._id, userEmail: user.userEmail, userPosition: user.userPosition}, process.env.ACCESS_TOKEN_SECRET)
         res.json({
 			success: true,
 			message: 'User Logged in successfully',
-			accessToken
+			accessToken,
 		})
 
     } catch (error) {
@@ -81,12 +81,14 @@ router.put("/update", verifyToken, async (req, res) =>{
         }
         const hashedPassword = await argon2.hash(userPassword)
         const hashedNewPassword = await argon2.hash(userNewPassword)
+        var today = new Date();
+        var utc = today.getTime() + 25200000;
         let updateUser = {
             userName: userName,
             userPassword: userNewPassword == "" ? hashedPassword : hashedNewPassword,
             userBirthday: userBirthday,
             userAddress: userAddress,
-            updatedAt: new Date
+            updatedAt: new Date(utc)
         }
         const userUpdateCondition = {userEmail: userEmail}
         updateUser = await User.findOneAndUpdate(userUpdateCondition, updateUser, {new: true})

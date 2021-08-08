@@ -13,13 +13,11 @@ const UserSchema = new Schema({
     },
     userPassword:{
         type: String,
-        require: true,
-        default: "@si@P@rk"
+        require: true
     },
     userPosition:{
         type: String,
-        enum: ["Manager", "Staff"],
-        default: "Staff",
+        enum: ["Manager", "Staff", "System"],
     },
     userBirthday:{
         type: Date,
