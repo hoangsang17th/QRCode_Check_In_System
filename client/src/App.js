@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import './App.css';
 import Auth from './pages/Login';
 import Profile from './pages/Profile';
@@ -26,8 +26,9 @@ function App() {
         <Route path='/Ports' component={Ports} />
         <Route path='/Types' component={Types} />
         <Route path='/Scan' component={Scan} />
-        <Route path='/Login' component={Auth} />
+        <Route exact path='/Login' component={Auth} />
         <Route path='/Profile' component={Profile} />
+        <Redirect from="*" to="/" />
       </Switch>
       {/* Phần dưới này lấy để làm tài nguyên sử dụng cho sau này vui lòng không chỉnh sửa */}
       {/* <div>
