@@ -5,6 +5,7 @@ import Footer from '../components/Footer';
 import {Redirect} from 'react-router-dom';
 import logo from '../logo.svg';
 import QRCode from 'qrcode.react'
+import React from 'react'
 
 function Tickets(){
     function printTicket(){

@@ -7,7 +7,6 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
-    "datatables.net": "^1.10.25",
     "datatables.net-dt": "^1.1.0",
     "jquery": "^3.6.0",
     "qrcode.react": "^1.0.1",
@@ -15,9 +14,8 @@
     "react-client-session": "0.0.7",
     "react-dom": "^17.0.2",
     "react-qr-reader": "^2.2.1",
-    "react-qr-scanner": "^1.0.0-alpha.7",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
+    "react-scripts": "^4.0.3",
     "react-select": "^4.3.1",
     "web-vitals": "^1.0.1"
   },

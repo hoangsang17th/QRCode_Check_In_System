@@ -12,6 +12,7 @@ import 'jquery/dist/jquery.min.js';
 import "datatables.net-dt/js/dataTables.dataTables"
 import "datatables.net-dt/css/jquery.dataTables.min.css"
 import $ from 'jquery'; 
+import AuthContextProvider from "./context/AuthContext";
 
 function App() {
 
@@ -19,31 +20,20 @@ function App() {
     $('#dataTable').DataTable();
   });
   return (
-    <Router>
-      <Switch>
-        <Route path='/' exact component={Tickets} />
-        <Route path='/Users' component={Users} />
-        <Route path='/Ports' component={Ports} />
-        <Route path='/Types' component={Types} />
-        <Route path='/Scan' component={Scan} />
-        <Route exact path='/Login' component={Auth} />
-        <Route path='/Profile' component={Profile} />
-        <Redirect from="*" to="/" />
-      </Switch>
-      {/* Phần dưới này lấy để làm tài nguyên sử dụng cho sau này vui lòng không chỉnh sửa */}
-      {/* <div>
-      <HeaderBar />
-        <div className="main-container" id="container">
-          <div className="overlay"></div>
-          <TopBar />
-          <div id="content" class="main-content">
-              
-          <Footer />
-          </div>
-        </div>
-      </div> */}
-      
-    </Router>
+    <AuthContextProvider>
+      <Router>
+        <Switch>
+          <Route path='/' exact component={Tickets} />
+          <Route path='/Users' component={Users} />
+          <Route path='/Ports' component={Ports} />
+          <Route path='/Types' component={Types} />
+          <Route path='/Scan' component={Scan} />
+          <Route exact path='/Login' component={Auth} />
+          <Route path='/Profile' component={Profile} />
+          <Redirect from="*" to="/" />
+        </Switch>
+      </Router>
+    </AuthContextProvider>
   );
 }
 

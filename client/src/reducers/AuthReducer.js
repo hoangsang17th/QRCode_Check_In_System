@@ -1,12 +1,12 @@
-export const AuthReducer = (state, action)=>{
-    const {type, payload} = action
+// export const AuthReducer = (state, action)=>{
+//     const {type, payload} = action
 
-    switch (key) {
-        case "SET_AUTH":
+//     switch (key) {
+//         case "SET_AUTH":
             
-            break;
+//             break;
     
-        default:
-            break;
-    }
-}
+//         default:
+//             break;
+//     }
+// }

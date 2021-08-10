@@ -2,6 +2,7 @@ import HeaderBar from '../components/HeaderBar';
 import TopBar from '../components/TopBar';
 import Footer from '../components/Footer';
 import logo from '../logo.svg';
+import React from 'react'
 function Profile(){
     return (
         <div>
