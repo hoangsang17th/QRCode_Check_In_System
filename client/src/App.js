@@ -20,25 +20,51 @@ function App() {
   $(document).ready(function () {
     $('#dataTable').DataTable();
   });
-  const {authState: {isAuthenticated}} = useContext(AuthContext)
-  // const {authState: {isAuthenticated, user: {userName, userPosition, userEmail}}} = useContext(AuthContext)
-  
+  // const {authState: {isAuthenticated}} = useContext(AuthContext)
+  const {authState: {isAuthenticated, user}} = useContext(AuthContext)
     if(isAuthenticated){
-      return (
+      if(user.userPosition === "Manager"){
+        return (
+          <Router>
+            <Switch>
+              <Route exact path='/' component={Onboard} />
+              <Route exact path='/Tickets' component={Tickets} />
+              <Route exact path='/Users' component={Users} />
+              <Route exact path='/Ports' component={Ports} />
+              <Route exact path='/Types' component={Types} />
+              <Route exact path='/Scan' component={Scan} />
+              <Route exact path='/Profile' component={Profile} />
+              <Redirect from="*" to="/" />
+            </Switch>
+          </Router>
+      );
+      }
+      else if(user.userPosition === "Staff"){
+        return (
     
-        <Router>
-          <Switch>
-            <Route exact path='/' component={Onboard} />
-            <Route exact path='/Tickets' component={Tickets} />
-            <Route exact path='/Users' component={Users} />
-            <Route exact path='/Ports' component={Ports} />
-            <Route exact path='/Types' component={Types} />
-            <Route exact path='/Scan' component={Scan} />
-            <Route exact path='/Profile' component={Profile} />
-            <Redirect from="*" to="/" />
-          </Switch>
-        </Router>
-    );
+          <Router>
+            <Switch>
+              <Route exact path='/' component={Onboard} />
+              <Route exact path='/Tickets' component={Tickets} />
+              <Route exact path='/Profile' component={Profile} />
+              <Redirect from="*" to="/Tickets" />
+            </Switch>
+          </Router>
+      );
+      }
+      else {
+        return (
+          <Router>
+            <Switch>
+              <Route exact path='/' component={Onboard} />
+              <Route exact path='/Scan' component={Scan} />
+              <Route exact path='/Profile' component={Profile} />
+              <Redirect from="*" to="/Scan" />
+            </Switch>
+          </Router>
+        );
+      }
+      
     }
     else {
       return (
