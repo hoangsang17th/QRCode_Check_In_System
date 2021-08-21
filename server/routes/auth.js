@@ -6,6 +6,29 @@ const jwt = require('jsonwebtoken')
 const User = require("../models/Users")
 const verifyToken = require("../middleware/Auth")
 // Auth Login, View & Update Profile ✔✔✔
+
+// @router GET api/Auth
+// @desc Check if User is Logged in
+// @Access Public
+
+router.get("/", verifyToken, async (req, res) =>{
+    try {
+        const user = await User.findById(req.userId).select("-password")
+        if(!user){
+            return res.status(400).json({
+                success: false,
+                message: "User not found"
+            })
+        }
+         res.json({
+            success: true,
+            user
+        })
+    } catch (error) {
+        console.log("FinTEST Auth: " + error.message)
+    }
+})
+
 // @router POST api/Auth/login
 // @desc Login User
 // @Access Public
@@ -31,14 +54,17 @@ router.post("/login", async (req, res) =>{
         if(!user.userStatus){
             return res.json({success: false, message: "Your account has been locked. Please contact the manager for more information."})
         }
-        console.log(user.userPosition)
-        const accessToken = jwt.sign({userId: user._id, userEmail: user.userEmail, userPosition: user.userPosition}, process.env.ACCESS_TOKEN_SECRET)
+        const accessToken = jwt.sign({
+            userId: user._id, 
+            userEmail: user.userEmail,
+            userName: user.userName, 
+            userStatus: user.userStatus,
+            userPosition: user.userPosition}, process.env.ACCESS_TOKEN_SECRET)
         res.json({
 			success: true,
 			message: 'User Logged in successfully',
 			accessToken,
 		})
-
     } catch (error) {
         console.log("FinTEST Auth: " + error.message)
     }
@@ -58,7 +84,7 @@ router.get("/profile", verifyToken, async (req, res) =>{
 })
 // @router PUT api/Auth/update
 // @desc Update User
-// @Access Public
+// @Access Private
 
 router.put("/update", verifyToken, async (req, res) =>{
     const {userName, userBirthday, userAddress, userPassword, userNewPassword} = req.body
@@ -101,4 +127,5 @@ router.put("/update", verifyToken, async (req, res) =>{
         console.log("FinTEST Auth: " + error.message)
     }
 })
+
 module.exports = router

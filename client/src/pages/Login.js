@@ -1,17 +1,25 @@
-import React, { useCallback, useState, useContext } from 'react'
+import React, { useState, useContext } from 'react'
+import { useHistory } from 'react-router-dom';
 import '../assets/css/login.css';
 import '../assets/js/login';
 import { AuthContext } from '../context/AuthContext';
 import Footer from '../components/Footer';
-
 function Login() {
-    const {loginUser} = useContext(AuthContext)
-
+    // Context
+    const {loginUser, authState: {isAuthenticated}} = useContext(AuthContext)
+    
+    // Router
+    const history = useHistory()
+    // Local state
     let [form, setForm] = useState({
         userEmail: "phsang49@gmail.com",
         userPassword: "phsang49@gmail.com"
     })
+    if(isAuthenticated){
+        history.push("/")
+    }
     const {userEmail, userPassword} = form
+
     const onChangeForm = event => 
     setForm({ ...form, [event.target.name]: event.target.value})
 
@@ -19,13 +27,18 @@ function Login() {
         event.preventDefault()
         try {
             const loginData = await loginUser(form)
-            console.log(loginData) 
+            if(loginData.success){
+                history.go(0)
+            }
+            else {
+                alert("Incorrect Email/ Password")
+            }
         } catch (error) {
-            console.log(error.message)
+            console.log("FinTEST" + error.message)
         }
                
     }
-
+    
     return (
         <>
         <div className="form-container">
@@ -36,7 +49,6 @@ function Login() {
                             <h1 className=""><span className="brand-name">Asia Park</span></h1>
                             <form className="text-left" onSubmit={login}>
                             <div class="form">
-
                                 <div id="username-field" class="field-wrapper input">
                                     <label for="username">EMAIL</label>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>

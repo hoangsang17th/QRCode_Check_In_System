@@ -6,13 +6,17 @@ import App from './App';
 import 'react-router-dom';
 
 import reportWebVitals from './reportWebVitals';
+import AuthContextProvider from "./context/AuthContext";
 // let  a = 3;
 // var path = window.location.href;
 // var pathname = window.location.pathname
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <AuthContextProvider>
+      <App />
+    </AuthContextProvider>
+    
   </React.StrictMode>,
   document.getElementById('root')
 );

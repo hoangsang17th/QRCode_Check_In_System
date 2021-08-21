@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import './App.css';
 import Auth from './pages/Login';
@@ -8,33 +7,52 @@ import Users from './pages/Users';
 import Ports from './pages/Ports';
 import Scan from './pages/Scan';
 import Types from './pages/Types';
+import Onboard from './pages/Onboard';
 import 'jquery/dist/jquery.min.js';
 import "datatables.net-dt/js/dataTables.dataTables"
 import "datatables.net-dt/css/jquery.dataTables.min.css"
 import $ from 'jquery'; 
-import AuthContextProvider from "./context/AuthContext";
+import React, { useContext } from 'react'
+import { AuthContext } from './context/AuthContext';
 
 function App() {
-
+  
   $(document).ready(function () {
     $('#dataTable').DataTable();
   });
-  return (
-    <AuthContextProvider>
-      <Router>
-        <Switch>
-          <Route path='/' exact component={Tickets} />
-          <Route path='/Users' component={Users} />
-          <Route path='/Ports' component={Ports} />
-          <Route path='/Types' component={Types} />
-          <Route path='/Scan' component={Scan} />
-          <Route exact path='/Login' component={Auth} />
-          <Route path='/Profile' component={Profile} />
-          <Redirect from="*" to="/" />
-        </Switch>
-      </Router>
-    </AuthContextProvider>
-  );
+  const {authState: {isAuthenticated}} = useContext(AuthContext)
+  // const {authState: {isAuthenticated, user: {userName, userPosition, userEmail}}} = useContext(AuthContext)
+  
+    if(isAuthenticated){
+      return (
+    
+        <Router>
+          <Switch>
+            <Route exact path='/' component={Onboard} />
+            <Route exact path='/Tickets' component={Tickets} />
+            <Route exact path='/Users' component={Users} />
+            <Route exact path='/Ports' component={Ports} />
+            <Route exact path='/Types' component={Types} />
+            <Route exact path='/Scan' component={Scan} />
+            <Route exact path='/Profile' component={Profile} />
+            <Redirect from="*" to="/" />
+          </Switch>
+        </Router>
+    );
+    }
+    else {
+      return (
+    
+        <Router>
+          <Switch>
+            <Route exact path='/' component={Onboard} />
+            <Route exact path='/Login' component={Auth} />
+            <Redirect from="*" to="/" />
+          </Switch>
+        </Router>
+    );
+    }
+  
 }
 
 export default App;
