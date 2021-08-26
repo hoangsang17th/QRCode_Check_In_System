@@ -14,6 +14,25 @@
   font-family: 'STIX Two Math', serif;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #adb1c4;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9da2b6; 
+}
 html {
   min-height: 100%;
 }
@@ -23,8 +42,6 @@ body {
   height: 100%;
   font-size: 0.875rem;
   background: #f1f2f3;
-  overflow-x: hidden;
-  overflow-y: auto;
   letter-spacing: 0.0312rem;
 }
 
@@ -1323,13 +1340,13 @@ select.form-control.form-custom {
   color: #fff;
   background-color: #2196f3; }
 
-.badge-success {
+/* .badge-success {
   color: #fff;
-  background-color: #8dbf42; }
+  background-color: #8dbf42; } */
 
-.badge-danger {
+/* .badge-danger {
   color: #fff;
-  background-color: #e7515a; }
+  background-color: #e7515a; } */
 
 .badge-warning {
   color: #fff;
@@ -2074,3 +2091,6 @@ table .badge-success, table .badge-primary, table .badge-warning, table .badge-d
 
 .position-relative {
   position: relative; }
+/* .odd{
+  opacity: 0;
+} */

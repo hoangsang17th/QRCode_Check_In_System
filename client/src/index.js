@@ -7,6 +7,11 @@ import 'react-router-dom';
 
 import reportWebVitals from './reportWebVitals';
 import AuthContextProvider from "./context/AuthContext";
+import PortsContextProvider from "./context/PortsContext";
+import UsersContextProvider from "./context/UsersContext";
+import TicketsContextProvider from "./context/TicketsContext";
+import TypesContextProvider from "./context/TypesContext";
+// import PagesContextProvider from "./context/PagesContext";
 // let  a = 3;
 // var path = window.location.href;
 // var pathname = window.location.pathname
@@ -14,7 +19,17 @@ import AuthContextProvider from "./context/AuthContext";
 ReactDOM.render(
   <React.StrictMode>
     <AuthContextProvider>
-      <App />
+      <PortsContextProvider>
+        <UsersContextProvider>
+          <TicketsContextProvider>
+            <TypesContextProvider>
+            <App />
+            </TypesContextProvider>
+          
+          </TicketsContextProvider>
+        </UsersContextProvider>
+      </PortsContextProvider>
+      
     </AuthContextProvider>
     
   </React.StrictMode>,

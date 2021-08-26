@@ -5,18 +5,66 @@ import Footer from '../components/Footer';
 import {Redirect} from 'react-router-dom';
 import logo from '../logo.svg';
 import QRCode from 'qrcode.react'
-import React from 'react'
+import React, {useContext, useEffect} from 'react'
+import {TicketsContext} from "../context/TicketsContext"
+import { AuthContext } from '../context/AuthContext'
+import {TypesContext} from "../context/TypesContext"
 
 function Tickets(){
     function printTicket(){
         window.print();
     }
-    $(document).ready(function () {
-        $('#dataTable').DataTable();
-    });
+    const {authState: { user: {userPosition}}} = useContext(AuthContext)
+    const {ticketState: {tickets, ticketsLoading}, getTicketsStaff, getTicketsManager} = useContext(TicketsContext)
+    const {typesState: {types, typesLoading}, getTypes} = useContext(TypesContext)
+    useEffect(() => userPosition === "Manager"? getTicketsManager() : getTicketsStaff(), [10000])
+    useEffect(() => getTypes(), [10000])
+    let loadData = false
+    let body
     
-    var auth = true
-    if(auth){
+    if(!ticketsLoading){
+        body = 
+        <>
+        {tickets.map(
+            ticket => (
+            <tr>
+                <td>{ticket._id}</td>
+                <td>{ticket.ticketCustomer}</td>
+                <td>{ticket.ticketType.typeName }</td>
+                <td>{ticket.ticketType.typePrice}</td>
+                <td>{ticket.createdAt }</td>
+                <td>{ticket.ticketUser.userName } {userPosition === "Manager"? "("+ticket.ticketUser.userPosition+")" : "" }</td>
+                <td className="justify-content-end text-right">
+                    <div className="d-flex justify-content-end col-actions">
+                        {ticket.ticketStatus ? 
+                            <div className='mx-1 badge badge-success'>
+                                Active
+                            </div> :
+                            <div className='mx-1 badge badge-danger'>
+                                Deactivated
+                            </div> 
+                        }
+                        <div className="mx-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="feather feather-printer"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                        </div>
+                        <div className="mx-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                        </div>
+                        <div className="mx-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-3"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        ))}
+        </>
+        loadData = true
+    }
+    if(loadData){
+        $(document).ready(function () {
+            $('#dataTable').DataTable();
+        });
+    }
     return (
         <div>
         <HeaderBar />
@@ -35,12 +83,12 @@ function Tickets(){
                                     </div>
                                     <div className="col-4">
                                         <select className="form-control" required>
-                                            <option selected="selected" value="vl1">Vé Người Lớn 1</option>
-                                            <option value="vl2">Vé Người Lớn 2</option>
-                                            <option value="vl3">Vé Người Lớn 3</option>
-                                            <option value="vn1">Vé Trẻ Nhỏ 1</option>
-                                            <option value="vn2">Vé Trẻ Nhỏ 2</option>
-                                            <option value="vl3">Vé Trẻ Nhỏ 3</option>
+                                        {
+                                            types.map(
+                                                type => 
+                                                <option value={type._id}>{type.typeName}</option>
+                                            )   
+                                        }
                                         </select>
                                     </div>
                                     <div className="col-4">
@@ -114,52 +162,15 @@ function Tickets(){
                                             <th>ID</th>
                                             <th>Name</th>
                                             <th>Type</th>
+                                            <th>Price</th>
+                                           
                                             <th>Date</th>
                                             <th>Staff</th>
-                                            <th>Action</th>
+                                            <th className="text-right">More</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>13</td>
-                                            <td>Tiger Nixon</td>
-                                            <td>Ticket 1</td>
-                                            <td>2011/04/25</td>
-                                            <td>Hoàng Sang</td>
-                                            <td>
-                                                <div className="d-flex align-items-center col-actions">
-                                                    <div className="mx-1">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="feather feather-printer"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-                                                    </div>
-                                                    <div className="mx-1">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="feather feather-edit-3"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-                                                    </div>
-                                                    <div className="mx-1">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="feather feather-flag"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>17</td>
-                                            <td>Garrett Winters</td>
-                                            <td>Ticket 2</td>
-                                            <td>2011/07/25</td>
-                                            <td>Hoàng Sang</td>
-                                            <td>
-                                                <div className="d-flex align-items-center col-actions">
-                                                <div className="mx-1">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="feather feather-printer"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-                                                </div>
-                                                <div className="mx-1">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="feather feather-edit-3"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-                                                </div>
-                                                <div className="mx-1">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="feather feather-flag"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
-                                                </div>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        {body}
                                     </tbody>
                                 </table>
                             </div>
@@ -170,13 +181,8 @@ function Tickets(){
             <Footer />
             </div>
         </div>
-    </div>
-        
+        </div>
     )
-    }
-    else {
-        return <Redirect to="/Login" />
-    }
 }
 
 export default Tickets

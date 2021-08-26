@@ -12,8 +12,8 @@ POST http://localhost:5000/api/auth/login
 Content-Type: application/json
 
 {
-    "userEmail": "phsang49@gmail.com",
-    "userPassword": "phsang49@gmail.com"
+    "userEmail": "staff@gmail.com",
+    "userPassword": "staff@gmail.com"
 }
 
 # {
@@ -160,10 +160,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTBiY
 ####
 POST http://localhost:5000/api/Tickets/create
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTBiYTI4MGM2NWMyMjM2NzgwZTZhNzUiLCJ1c2VyRW1haWwiOiJwaHNhbmc0OUBnbWFpbC5jb20iLCJ1c2VyUG9zaXRpb24iOiJNYW5hZ2VyIiwiaWF0IjoxNjI4MzQ0MTU3fQ.79gWjvFPkB_ufTb8WhvK29BpR96xJY6YwW_Gqg4q4Bk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTBiYTJlZGM2NWMyMjM2NzgwZTZhNzkiLCJ1c2VyRW1haWwiOiJzdGFmZkBnbWFpbC5jb20iLCJ1c2VyTmFtZSI6IlN0YWZmIEFpc2FfUGFyayIsInVzZXJTdGF0dXMiOnRydWUsInVzZXJQb3NpdGlvbiI6IlN0YWZmIiwiZXhwIjoxNjI5ODA4ODAwLjIxNywiaWF0IjoxNjI5NzgwMDAwfQ.Ukj0qkIFr0Zwv7mO1uoArdj4F_f7__DaGJpTDWYfxew
 
 {
-    "ticketCustomer": "Hoàng Long",
+    "ticketCustomer": "Hoàng Nhân Viên",
     "ticketType": "610f3f49e303895340c408ef"
 }
 

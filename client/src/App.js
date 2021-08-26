@@ -11,16 +11,10 @@ import Onboard from './pages/Onboard';
 import 'jquery/dist/jquery.min.js';
 import "datatables.net-dt/js/dataTables.dataTables"
 import "datatables.net-dt/css/jquery.dataTables.min.css"
-import $ from 'jquery'; 
 import React, { useContext } from 'react'
 import { AuthContext } from './context/AuthContext';
 
 function App() {
-  
-  $(document).ready(function () {
-    $('#dataTable').DataTable();
-  });
-  // const {authState: {isAuthenticated}} = useContext(AuthContext)
   const {authState: {isAuthenticated, user}} = useContext(AuthContext)
     if(isAuthenticated){
       if(user.userPosition === "Manager"){
@@ -41,7 +35,6 @@ function App() {
       }
       else if(user.userPosition === "Staff"){
         return (
-    
           <Router>
             <Switch>
               <Route exact path='/' component={Onboard} />

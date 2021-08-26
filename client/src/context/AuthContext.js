@@ -59,6 +59,8 @@ const AuthContextProvider = ({children}) => {
         )
         dispatch({type: "SET_AUTH", payload: {isAuthenticated: false, user: null}})
     }
+
+
     const AuthContextData = {loginUser, authState, logoutUser}
 
     return (

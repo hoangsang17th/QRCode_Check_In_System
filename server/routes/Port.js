@@ -10,7 +10,7 @@ const verifyTokenManager = require("../middleware/Auth_Manager")
 
 router.get("/view", verifyTokenManager, async(req, res) => {
     try {
-        const viewPorts = await Port.find().populate("portUser", [
+        const viewPorts = await Port.find().sort({_id : -1}).populate("portUser", [
             "userName",
             "userEmail",
             "userPosition"
@@ -60,7 +60,7 @@ router.post("/create", verifyTokenManager, async(req, res) => {
             portStatus: portStatus
         })
         await newPort.save()
-        res.json({success: true, message: `Create successful Port: ${newPort._id}`})
+        res.json({success: true, newPort})
     } catch (error) {
         console.log("FinTEST Create Ports: " + error.message)
     }

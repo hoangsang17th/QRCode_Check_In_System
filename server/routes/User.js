@@ -92,12 +92,12 @@ router.get("/view/:id", verifyTokenManager, async (req, res) =>{
 
 router.get("/view", verifyTokenManager, async (req, res) =>{
     try {
-        const user = await User.find()
-        if(!user){
+        const viewUsers = await User.find()
+        if(!viewUsers){
             return res.status(400).json({success: false, message: "User not found", userId})
         }res.json({
 			success: true,
-			user
+			viewUsers
 		})
     } catch (error) {
         console.log("FinTEST Auth: " + error.message)

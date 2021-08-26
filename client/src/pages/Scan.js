@@ -1,32 +1,32 @@
-import React, { Component } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import HeaderBar from '../components/HeaderBar';
 import TopBar from '../components/TopBar';
 import Footer from '../components/Footer';
 import QrReader from 'react-qr-reader'
 import Select from 'react-select'
+import {PortsContext} from "../context/PortsContext"
 
-const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' }
-  ]
-class Scan extends Component {
-    
-    state = {
-        result: 'No Data'
+
+
+function Scan() {
+    let portsOptions = []
+    const {portState: {ports, portsLoading}, getPorts} = useContext(PortsContext)
+    useEffect(() => getPorts(), [10000])
+    if(!portsLoading){
+        ports.map(
+            port => (
+               portsOptions.push({ value: port._id, label: port.portName })
+            )
+        )
+        
     }
-    
-    handleScan = data => {
-        if (data) {
-            this.setState({
-                result: data
-            })
+    const [qrData, setQRData ]= useState("")
+    const handleScan = data => {
+        if(data){
+            setQRData(data)
         }
     }
-    handleError = err => {
-        console.error(err)
-    }
-    render(){
+    
     return (
         <div>
         <HeaderBar />
@@ -40,11 +40,9 @@ class Scan extends Component {
                     <div className="col-md-6 col-xl-4 layout-spacing">
                         <div className="widget-content widget-content-area br-6">
                             <QrReader
-                                delay={this.state.delay}
-                                onError={this.handleError}
-                                // style={previewStyle}
+                                delay={300}
                                 className={'w-100'}
-                                onScan={this.handleScan}
+                                onScan={handleScan}
                             />
                         </div>
                     </div>
@@ -53,13 +51,13 @@ class Scan extends Component {
                             <p className="h6 mt-2">PORT:</p>
                             <hr class="dropdown-divider"/>
                             <Select 
-                            options={options} 
+                            options={portsOptions} 
                             className=" mt-2"
                             />
 
                             <p className="h6 mt-3">DATA FROM QRCODE:</p>
                             <hr class="dropdown-divider"/>
-                            <p className=" mt-2">{this.state.result}</p>
+                            <p className=" mt-2">{qrData}</p>
 
                             <p className="h6 mt-5 pt-5">RESULTS:</p>
                             <hr class="dropdown-divider"/>
@@ -73,6 +71,6 @@ class Scan extends Component {
         </div>
         </div>
     )
-    }
+
 }
 export default Scan

@@ -59,7 +59,9 @@ router.post("/login", async (req, res) =>{
             userEmail: user.userEmail,
             userName: user.userName, 
             userStatus: user.userStatus,
-            userPosition: user.userPosition}, process.env.ACCESS_TOKEN_SECRET)
+            userPosition: user.userPosition,
+            exp: Date.now()/1000 + 28800
+        }, process.env.ACCESS_TOKEN_SECRET)
         res.json({
 			success: true,
 			message: 'User Logged in successfully',
