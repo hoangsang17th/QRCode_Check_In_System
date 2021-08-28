@@ -20,7 +20,7 @@ export const PortsReducer = (state, action)=>{
     
             return {
                 ...state,
-                ports: [...state.ports, payload],
+                ports: [payload, ...state.ports],
                 portsLoading: false
             }
         default:

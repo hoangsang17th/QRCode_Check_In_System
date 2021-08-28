@@ -2,10 +2,9 @@ import $ from 'jquery';
 import HeaderBar from '../components/HeaderBar';
 import TopBar from '../components/TopBar';
 import Footer from '../components/Footer';
-import {Redirect} from 'react-router-dom';
 import logo from '../logo.svg';
 import QRCode from 'qrcode.react'
-import React, {useContext, useEffect} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import {TicketsContext} from "../context/TicketsContext"
 import { AuthContext } from '../context/AuthContext'
 import {TypesContext} from "../context/TypesContext"
@@ -14,11 +13,57 @@ function Tickets(){
     function printTicket(){
         window.print();
     }
+    // Xác minh quyền hạn
     const {authState: { user: {userPosition}}} = useContext(AuthContext)
-    const {ticketState: {tickets, ticketsLoading}, getTicketsStaff, getTicketsManager} = useContext(TicketsContext)
-    const {typesState: {types, typesLoading}, getTypes} = useContext(TypesContext)
+    // Gọi các hàm liên quan đến dữ liệu hiển thị và sử dụng
+    const {ticketState: {tickets, ticketsLoading}, 
+            getTicketsStaff, 
+            getTicketsManager, 
+            createTicket
+        } = useContext(TicketsContext)
+    // Gọi hàm để hiển thị dữ liệu loại vé
+    const {typesState: {types}, getTypes} = useContext(TypesContext)
+    // Dựa vào phân quyền phía trên để phân loại dữ liệu hiển thị
+    // Nếu mà nhân viên thì chỉ cho xem dữ liệu của chính bản thân
+    // Nếu là Manager thì cho hiển thị tất cả dữ liệu của cả nhân viên và manager
     useEffect(() => userPosition === "Manager"? getTicketsManager() : getTicketsStaff(), [10000])
+    // Gọi hàm hiển thị thể loại vé
     useEffect(() => getTypes(), [10000])
+    // Có lẽ ngay đây gọi ra 1 hàm lấy 1 ID thể loại đầu tiên :))
+    const [newTicket, setNewTicket] = useState({
+        ticketCustomer: "",
+        ticketType: ""
+    })
+    const {ticketCustomer, ticketType} = newTicket
+    const onChangeForm = event => 
+    // Lấy dữ liêu dựa vào name của input
+    setNewTicket({ ...newTicket, [event.target.name]: event.target.value})
+    // Nhập dữ liệu mới xong cho nó load lại trang
+    // alert("Ticket add success")
+    const ticketForm = async event => {
+        event.preventDefault()
+        try {
+            const ticketData = await createTicket(newTicket)
+            
+            if(ticketData.success){
+                alert("Ticket add success")
+                setNewTicket({
+                    ticketCustomer: "",
+                    ticketType: ""
+                })
+            }
+            else {
+                alert("Ticket Name is required")
+            }
+            // Nếu mà thêm vào thành công thì xóa hết dữ liệu trong form
+            
+            // document.getElementById("cancel").click();
+            // history.go(0)
+        } catch (error) {
+            console.log("FinTEST" + error.message)
+        }
+               
+    }
     let loadData = false
     let body
     
@@ -76,13 +121,13 @@ function Tickets(){
                 <div className="row layout-top-spacing" id="no-print">
                     <div className="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
                         <div className="widget-content widget-content-area br-6">
-                            <form action="" method="post">
+                            <form onSubmit={ticketForm}>
                                 <div className="row">
                                     <div className="col-4">
-                                        <input type="name" className="form-control" placeholder="Tên/ SĐT" required />
+                                        <input onChange={onChangeForm} name="ticketCustomer" value={ticketCustomer} type="name" className="form-control" placeholder="Name/ Phone" required />
                                     </div>
                                     <div className="col-4">
-                                        <select className="form-control" required>
+                                        <select onChange={onChangeForm} name="ticketType" value={ticketType} className="form-control" required>
                                         {
                                             types.map(
                                                 type => 
@@ -92,7 +137,10 @@ function Tickets(){
                                         </select>
                                     </div>
                                     <div className="col-4">
-                                        <button type="button" className="btn btn-outline-primary btn-block form-control" data-toggle="modal" data-target="#printModal">
+                                        <button type="submit" className="btn btn-outline-primary btn-block form-control">
+                                            Xuất Vé
+                                        </button>
+                                        <button hidden data-toggle="modal" data-target="#printModal">
                                             Xuất Vé
                                         </button>
                                     </div>

@@ -35,7 +35,8 @@ router.post("/create", verifyTokenManager, async (req, res) =>{
         res.json({
 			success: true,
 			message: 'User created successfully',
-			accessToken
+			accessToken,
+            newUser
 		})
 
     } catch (error) {
@@ -89,7 +90,7 @@ router.get("/view/:id", verifyTokenManager, async (req, res) =>{
         console.log("FinTEST Auth: " + error.message)
     }
 })
-
+// Đã sài phần này
 router.get("/view", verifyTokenManager, async (req, res) =>{
     try {
         const viewUsers = await User.find()

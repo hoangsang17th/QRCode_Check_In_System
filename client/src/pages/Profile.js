@@ -3,19 +3,65 @@ import TopBar from '../components/TopBar';
 import Footer from '../components/Footer';
 import React, {useContext, useEffect, useState} from 'react'
 import {AuthContext} from "../context/AuthContext"
-
+import { useHistory } from 'react-router-dom';
+var moment = require('moment')
 function Profile(){
-    const {authState: { user: {userPosition}}} = useContext(AuthContext)
-    // const {authState: {authUser}, getProfile} = useContext(AuthContext)
-    // useEffect(() => getProfile(), [10000])
-    const [qrData, setQRData ]= useState("")
-    const handleScan = data => {
-        if(data){
-            setQRData(data)
-            alert(qrData.format("DD-MMM-YYYY") )
-            console.log(data)
+    const history = useHistory()
+    const {authState: { user }, updateUser} = useContext(AuthContext)
+    const [updateProfile, setUpdateProfile] = useState({
+        userEmail: user.userEmail,
+        userName: user.userName,
+        userPosition: user.userPosition,
+        userBirthday: moment(user.userBirthday).format("YYYY-MM-DD"),
+        userAddress: user.userAddress,
+        userPassword: "",
+        userNewPassword: "",
+    })
+    const {
+        userEmail, 
+        userName, 
+        userPosition, 
+        userBirthday, 
+        userAddress, 
+        userPassword,
+        userNewPassword} = updateProfile
+    
+    const onChangeForm = event => 
+    setUpdateProfile({ ...updateProfile, [event.target.name]: event.target.value})
+    const profileForm = async event => {
+        event.preventDefault()
+        if(userName =="" ||userBirthday=="" ||userAddress =="" ||userPassword ==""){
+            alert("You can just leave the new password field blank!")
+        }
+        try {
+            const profileData = await updateUser(updateProfile)
+            
+            if(profileData.success){
+                alert("User update success")
+                // Nếu mà thêm vào thành công thì xóa hết dữ liệu trong form
+                setUpdateProfile({
+                    userEmail: user.userEmail,
+                    userName: user.userName,
+                    userPosition: user.userPosition,
+                    userBirthday: moment(user.userBirthday).format("YYYY-MM-DD"),
+                    userAddress: user.userAddress,
+                    userPassword: "",
+                    userNewPassword: "",
+                })
+                alert("Please LogIn again!")
+                history.go(0)
+            }
+            else {
+                alert("Incorrect Password")
+            }
+            
+            // document.getElementById("cancel").click();
+            
+        } catch (error) {
+            console.log("FinTEST" + error.message)
         }
     }
+
     return (
         <div>
         <HeaderBar />
@@ -27,7 +73,6 @@ function Profile(){
                 <div className="row layout-top-spacing" id="no-print">
                     <div className="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
                         <div className="widget-content widget-content-area br-6">
-                            <form id="general-info" className="section general-info">
                                 <div className="info">
                                     <h6 className="H5 text-uppercase text-center mb-2 pb-2">General Information</h6>
                                     <div className="row">
@@ -35,36 +80,36 @@ function Profile(){
                                             <div className="row">
                                                 <div className="col-12 mt-md-0 mt-4">
                                                     <div className="form">
-                                                        <form>
+                                                        <form onSubmit={profileForm}>
                                                         <div className="row">
                                                             <div className="col-sm-6">
                                                                 <div className="form-group">
                                                                     <label for="fullName">Email*</label>
-                                                                    <input type="email" name="email" className="form-control mb-4" placeholder="Your Email" value="phsang49@gmail.com" disabled/>
+                                                                    <input value={userEmail} type="email" name="userEmail" className="form-control mb-4" disabled/>
                                                                 </div>
                                                             </div>
                                                             <div className="col-sm-6">
                                                                 <label for="fullName">Full Name*</label>
-                                                                <input type="text" name="userName" className="form-control mb-4" placeholder="Full Name" required/>
+                                                                <input value={userName} onChange={onChangeForm} type="text" name="userName" className="form-control mb-4" placeholder="Full Name" required/>
                                                             </div>
                                                         </div>
                                                         <div className="row">
                                                             <div className="col-sm-6">
                                                                 <div className="form-group">
                                                                     <label for="fullName">Position*</label>
-                                                                    <input type="text" name="position" className="form-control mb-4" value={userPosition} disabled/>
+                                                                    <input value={userPosition} type="text" name="userPosition" className="form-control mb-4" disabled/>
                                                                 </div>
                                                             </div>
                                                             <div className="col-sm-6">
                                                                 <label for="fullName">Birthday*</label>
-                                                                <input type="date" name="birthday" className="form-control mb-4" value="1970-09-11"/>
+                                                                <input value={userBirthday} onChange={onChangeForm} type="date" name="userBirthday" className="form-control mb-4" />
                                                             </div>
                                                         </div>
                                                         <div className="row">
                                                             <div className="col-sm-12">
                                                                 <div className="form-group">
                                                                     <label for="fullName">Address*</label>
-                                                                    <textarea row="3" type="text" name="position" className="form-control mb-4" placeholder="Your Address" required/>
+                                                                    <textarea value={userAddress} onChange={onChangeForm} row="3" type="text" name="userAddress" className="form-control mb-4" placeholder="Your Address" required/>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -72,18 +117,18 @@ function Profile(){
                                                             <div className="col-sm-6">
                                                                 <div className="form-group">
                                                                     <label for="fullName">Current Password*</label>
-                                                                    <input type="password" name="password" className="form-control mb-4" placeholder="Your Password" required/>
+                                                                    <input value={userPassword} onChange={onChangeForm} type="password" name="userPassword" className="form-control mb-4" placeholder="Your Password" required/>
                                                                 </div>
                                                             </div>
                                                             <div className="col-sm-6">
                                                                 <label for="fullName">New Password</label>
-                                                                <input type="password" name="newpassword" className="form-control mb-4" placeholder="New Password"/>
+                                                                <input value={userNewPassword} onChange={onChangeForm} type="password" name="userNewPassword" className="form-control mb-4" placeholder="New Password"/>
                                                             </div>
                                                         </div>
                                                         <div className="row">
                                                             <div className="col-sm-12">
                                                                 <div className="form-group">
-                                                                    <input type="submit" value="Save" className="form-control mb-4 btn btn-outline-primary"/>
+                                                                    <input type="submit" className="form-control mb-4 btn btn-outline-primary"/>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -94,7 +139,6 @@ function Profile(){
                                         </div>
                                     </div>
                                 </div>
-                            </form>
                         </div>
                     </div>
                 </div>

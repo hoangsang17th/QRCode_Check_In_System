@@ -1,12 +1,45 @@
 import $ from 'jquery'; 
-import React, {useContext, useEffect} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import HeaderBar from '../components/HeaderBar';
 import TopBar from '../components/TopBar';
 import Footer from '../components/Footer';
 import {UsersContext} from "../context/UsersContext"
 function Users() {
-    const {userState: {users, usersLoading}, getUsers} = useContext(UsersContext)
+    const {userState: {users, usersLoading}, getUsers, createUser} = useContext(UsersContext)
     useEffect(() => getUsers(), [10000])
+    const [newUser, setNewUser] = useState({
+        userEmail: "",
+        userName: "",
+        userPosition: "Staff"
+    })
+    const {userEmail, userName, userPosition} = newUser
+    const onChangeForm = event => 
+    setNewUser({ ...newUser, [event.target.name]: event.target.value})
+    const userForm = async event => {
+        event.preventDefault()
+        
+        try {
+            const userData = await createUser(newUser)
+            
+            if(userData.success){
+                alert("User add success")
+            }
+            else {
+                alert("User Name is required")
+            }
+            // Nếu mà thêm vào thành công thì xóa hết dữ liệu trong form
+            setNewUser({
+                userEmail: "",
+                userName: "",
+                userPosition: "Staff"
+            })
+            document.getElementById("cancel").click();
+            // history.go(0)
+        } catch (error) {
+            console.log("FinTEST" + error.message)
+        }
+               
+    }
     let loadData = false
     let body
     let number = 1
@@ -65,36 +98,36 @@ function Users() {
                                 <h4 className="modal-title">User</h4>
                                 <button type="button" className="close" data-dismiss="modal" aria-hidden="true"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
                             </div>
-                            <form action="" method="post">
+                            <form onSubmit={userForm}>
                             <div className="modal-body" id="Type-content Type">
                                
                                     <div className="row mt-2">
                                         <div className="col-12 mt-2">
-                                            <input type="email" className="form-control" placeholder="Email" required />
+                                            <input onChange={onChangeForm} name="userEmail" value={userEmail}  type="email" className="form-control" placeholder="Email" required />
                                         </div>
                                         <div className="col-12 mt-2">
-                                            <input type="name" className="form-control" placeholder="Name" required />
+                                            <input onChange={onChangeForm} name="userName" value={userName}  type="name" className="form-control" placeholder="Name" required />
                                         </div>
                                        
                                         <div className="col-12 mt-2">
-                                            <select className="form-control" >
-                                                <option value="">Staff</option>
-                                                <option value="">System </option>
-                                                <option value="">Manager </option>
+                                            <select className="form-control" onChange={onChangeForm} name="userPosition" value={userPosition}  >
+                                                <option value="Staff">Staff</option>
+                                                <option value="System">System </option>
+                                                <option value="Manager">Manager </option>
                                             </select>
                                         </div>
-                                        <div className="col-12 mt-2">
+                                        {/* <div className="col-12 mt-2">
                                             <select className="form-control" >
                                                 <option value="">Active</option>
                                                 <option value="">DeActivated </option>
                                             </select>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 
                             </div>
                             <div className="modal-footer justify-content-center ">
                                 
-                                <button type="button" data-dismiss="modal" aria-hidden="true" className="btn btn-outline-danger ">Cancel</button>
+                                <button type="button" id="cancel" data-dismiss="modal" aria-hidden="true" className="btn btn-outline-danger ">Cancel</button>
                                 <button type="submit" className="btn btn-outline-primary">Add User</button>
                             </div>
                             </form>

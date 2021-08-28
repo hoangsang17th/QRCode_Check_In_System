@@ -105,6 +105,7 @@ router.put("/update", verifyToken, async (req, res) =>{
         
         const passwordValid = await argon2.verify(user.userPassword, userPassword)
         if(!passwordValid){
+            
             return res.status(400).json({success: false, message: "Incorrect Password"})
         }
         const hashedPassword = await argon2.hash(userPassword)

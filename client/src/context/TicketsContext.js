@@ -33,8 +33,26 @@ const TicketsContextProvider = ({children}) => {
             dispath({type: "TICKETS_LOADED_FAIL"})
         }
     }
+    const createTicket = async newTicket => {
+        try {
+            
+            const response = await axios.post(`${apiUrl}/Tickets/create`, newTicket)
+            if(response.data.success){
+                dispath({type: "CREATE_TICKETS_SUCCESS", payload: response.data.newTicket})
+                return response.data
+            }
+            
+        } catch (error) {
+            if(error.response.data){
+                return error.response.data
+            }
+            else {
+                return {success: false, message: error.message}
+            }
+        }
+    }
     // Port context data
-    const ticketContextData = {ticketState, getTicketsStaff, getTicketsManager}
+    const ticketContextData = {ticketState, getTicketsStaff, getTicketsManager, createTicket}
     return (
         <TicketsContext.Provider value = {ticketContextData}>
             {children}

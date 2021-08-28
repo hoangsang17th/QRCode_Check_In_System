@@ -22,8 +22,26 @@ const TypesContextProvider = ({children}) => {
             dispath({type: "TYPES_LOADED_FAIL"})
         }
     }
+    const createType = async newType => {
+        try {
+            
+            const response = await axios.post(`${apiUrl}/Types/create`, newType)
+            if(response.data.success){
+                dispath({type: "CREATE_TYPES_SUCCESS", payload: response.data.newType})
+                return response.data
+            }
+            
+        } catch (error) {
+            if(error.response.data){
+                return error.response.data
+            }
+            else {
+                return {success: false, message: error.message}
+            }
+        }
+    }
     // Port context data
-    const typesContextData = {typesState, getTypes}
+    const typesContextData = {typesState, getTypes, createType}
     return (
         <TypesContext.Provider value = {typesContextData}>
             {children}

@@ -1,10 +1,12 @@
 import $ from 'jquery'; 
-import React, {useContext, useEffect, useState} from 'react'
+import React, {useContext, useEffect, useState, history} from 'react'
 import HeaderBar from '../components/HeaderBar';
 import TopBar from '../components/TopBar';
 import Footer from '../components/Footer';
 import {PortsContext} from "../context/PortsContext"
+import { useHistory } from 'react-router-dom';
 function Ports() {
+    const history = useHistory()
     const {portState: {ports, portsLoading}, getPorts, createPort} = useContext(PortsContext)
     useEffect(() => getPorts(), [10000])
     // Khai báo biến để lấy dũ liệu
@@ -37,6 +39,7 @@ function Ports() {
                 portStatus: true
             })
             document.getElementById("cancel").click();
+            // history.go(0)
         } catch (error) {
             console.log("FinTEST" + error.message)
         }

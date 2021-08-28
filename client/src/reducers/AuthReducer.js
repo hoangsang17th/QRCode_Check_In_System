@@ -9,7 +9,13 @@ export const AuthReducer = (state, action)=>{
                 isAuthenticated,
                 user
             }
-    
+        case "UPDATE_AUTH_SUCCESS":
+        
+            return {
+                ...state,
+                isAuthenticated,
+                user
+            }
         default:
             return state
     }

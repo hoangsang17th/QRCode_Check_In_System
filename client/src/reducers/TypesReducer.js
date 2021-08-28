@@ -16,7 +16,13 @@ export const TypesReducer = (state, action)=>{
                 types: [],
                 typesLoading: false
             }
-    
+        case "CREATE_TYPES_SUCCESS":
+
+            return {
+                ...state,
+                types: [payload, ...state.types],
+                typesLoading: false
+            }
         default:
             return state
     }

@@ -40,6 +40,7 @@ const AuthContextProvider = ({children}) => {
                     LOCAL_STORAGE_TOKEN_NAME, 
                     response.data.accessToken
                 )
+                
                 return response.data
             } else {
                 alert("Your account has been locked. Please contact the manager for more information.")
@@ -59,9 +60,31 @@ const AuthContextProvider = ({children}) => {
         )
         dispatch({type: "SET_AUTH", payload: {isAuthenticated: false, user: null}})
     }
+    const updateUser = async updaUser => {
+        try {
+            
+            const response = await axios.put(`${apiUrl}/Auth/update`, updaUser)
+            if(response.data.success){
+                const res = await axios.get(`${apiUrl}/Auth/`)
+                dispatch({type: "UPDATE_AUTH_SUCCESS", payload: {isAuthenticated: true, user: res.data.user}})
+                
+                localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME)
+                
+                return response.data
+            }
+            
+        } catch (error) {
+            if(error.response.data){
+                return error.response.data
+            }
+            else {
+                return {success: false, message: error.message}
+            }
+        }
+    }
 
 
-    const AuthContextData = {loginUser, authState, logoutUser}
+    const AuthContextData = {loginUser, authState, logoutUser, updateUser}
 
     return (
         <AuthContext.Provider value={AuthContextData}>

@@ -22,8 +22,26 @@ const UsersContextProvider = ({children}) => {
             dispath({type: "USERS_LOADED_FAIL"})
         }
     } 
+    const createUser = async newUser => {
+        try {
+            
+            const response = await axios.post(`${apiUrl}/Users/create`, newUser)
+            if(response.data.success){
+                dispath({type: "CREATE_USERS_SUCCESS", payload: response.data.newUser})
+                return response.data
+            }
+            
+        } catch (error) {
+            if(error.response.data){
+                return error.response.data
+            }
+            else {
+                return {success: false, message: error.message}
+            }
+        }
+    }
     // user context data
-    const userContextData = {userState, getUsers}
+    const userContextData = {userState, getUsers, createUser}
     return (
         <UsersContext.Provider value = {userContextData}>
             {children}

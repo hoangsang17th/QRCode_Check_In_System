@@ -14,8 +14,10 @@ router.post("/create",verifyToken, async(req, res) => {
     }
     try {
         const viewType = await Type.findOne({_id: ticketType})
+        
         console.log(viewType.typePrice)
         const ticketUser = req.userId
+        
         const newTicket = new Ticket({
             ticketCustomer: ticketCustomer,
             ticketType: ticketType,
@@ -26,11 +28,11 @@ router.post("/create",verifyToken, async(req, res) => {
 
         res.json({success: true, message: `Create successful Ticket: ${newTicket._id}`, newTicket})
     } catch (error) {
-        console.log("FinTEST Ports: " + error.message)
+        console.log("FinTEST Tickets: " + error.message)
     }
 })
 
-
+// Đã Xong
 router.get("/viewStaff",verifyToken, async(req, res) => {
     try { 
         const ticketUser= req.userId
