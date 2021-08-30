@@ -1,5 +1,5 @@
 import $ from 'jquery'; 
-import React, {useContext, useEffect} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import HeaderBar from '../components/HeaderBar';
 import TopBar from '../components/TopBar';
 import Footer from '../components/Footer';
@@ -7,19 +7,61 @@ import Select from 'react-select';
 import {TypesContext} from "../context/TypesContext"
 import {PortsContext} from "../context/PortsContext"
 
+
 function Types() {
     let portsOptions = []
-    const {typesState: {types, typesLoading}, getTypes} = useContext(TypesContext)
+    const {typesState: {types, typesLoading}, getTypes, createType} = useContext(TypesContext)
     const {portState: {ports, portsLoading}, getPorts} = useContext(PortsContext)
-    useEffect(() => getPorts(), getTypes())
-    if(!portsLoading){
+    useEffect(() => getTypes(), [2])
+    useEffect(() => getPorts(), [1])
+    var portsLoadingData = portsLoading
+    if(!portsLoadingData){
         ports.map(
             port => (
                portsOptions.push({ value: port._id, label: port.portName })
             )
         )
-        
+        portsLoadingData = !portsLoadingData
     }
+    const [arrPort, setPorts] = useState([])
+    const [typeName, setName] = useState("")
+    const [typePrice, setPrice] = useState("")
+    const [typeStatus, setStatus] = useState(true)
+    const onChangeName = event => setName(event.target.value)
+    const onChangePrice = event => setPrice(event.target.value)
+    const onChangeStatus = event => setStatus(event.target.value)
+    const typeForm = async event => {
+        event.preventDefault()
+        var typePorts = []
+        try {
+            var arrSelect = arrPort.map(port => ({_id:port.value}))
+            for(var i = 0;i<arrSelect.length;i++) {
+                typePorts.push(arrSelect[i]._id)
+            }
+            const typeData = await createType({typeName, typePrice, typePorts, typeStatus})   
+            if(typeData.success){
+                alert("Ticket add success")
+                document.getElementById("cancel").click();
+                
+                typeName = ""
+                typePrice = ""
+                typePorts = ""
+                typeStatus = true
+                
+                alert("OK")
+            }
+            else {
+                alert("Ticket Name is required")
+            }
+            
+            // history.go(0)
+        } catch (error) {
+            console.log("FinTEST" + error.message)
+        }
+               
+    }
+
+    
     let loadData = false
     let body
     let number = 1
@@ -78,25 +120,27 @@ function Types() {
                                 <h4 className="modal-title">Type</h4>
                                 <button type="button" className="close" data-dismiss="modal" aria-hidden="true"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
                             </div>
-                            <form action="" method="post">
+                            <form onSubmit={typeForm}>
                             <div className="modal-body" id="Type-content Type">
                                
                                     <div className="row mt-2">
                                         <div className="col-12 mt-2">
-                                            <input type="name" className="form-control" placeholder="Name" required />
+                                            <input onChange={onChangeName} name="typeName" type="name" className="form-control" placeholder="Name" required />
                                         </div>
                                         <div className="col-12 mt-2">
-                                            <input type="number" className="form-control" placeholder="Price" required />
+                                            <input onChange={onChangePrice} name="typePrice" type="number" className="form-control" placeholder="Price" required />
                                         </div>
                                         <div className="col-12 mt-2">
-                                            <select className="form-control" >
-                                                <option value="">Activities</option>
-                                                <option value="">Block </option>
+                                            <select onChange={onChangeStatus} name="typeStatus" className="form-control" >
+                                                <option value="true">Activities</option>
+                                                <option value="false">Block </option>
                                             </select>
                                         </div>
                                         <div className="col-12 mt-2">
-                                            <Select 
-                                                options={portsOptions} 
+                                            <Select
+                                                onChange={setPorts}
+                                                // value={typePorts}
+                                                options={portsOptions}
                                                 isMulti
                                             />
                                         </div>
@@ -105,7 +149,7 @@ function Types() {
                             </div>
                             <div className="modal-footer justify-content-center ">
                                 
-                                <button type="button" data-dismiss="modal" aria-hidden="true" className="btn btn-outline-danger ">Cancel</button>
+                                <button type="button" id="cancel" data-dismiss="modal" aria-hidden="true" className="btn btn-outline-secondary ">Cancel</button>
                                 <button type="submit" className="btn btn-outline-primary">Add Type</button>
                             </div>
                             </form>

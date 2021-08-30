@@ -51,8 +51,18 @@ const TicketsContextProvider = ({children}) => {
             }
         }
     }
+    const getTicketById = async ticketId => {
+        try {
+            const response = await axios.get(`${apiUrl}/Tickets/view/${ticketId}`)
+            if(response.data.success){
+                dispath({type: "TICKET_LOADED_SUCCESS", payload: response.data.viewTicket})
+            }
+        } catch (error) {
+            dispath({type: "TICKETS_LOADED_FAIL"})
+        }
+    }
     // Port context data
-    const ticketContextData = {ticketState, getTicketsStaff, getTicketsManager, createTicket}
+    const ticketContextData = {ticketState, getTicketsStaff, getTicketsManager, createTicket, getTicketById}
     return (
         <TicketsContext.Provider value = {ticketContextData}>
             {children}

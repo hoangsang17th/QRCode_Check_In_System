@@ -23,6 +23,12 @@ export const PortsReducer = (state, action)=>{
                 ports: [payload, ...state.ports],
                 portsLoading: false
             }
+        case "DELETE_PORT_SUCCESS":
+    
+            return {
+                ...state,
+                ports: state.ports.filter(port => port._id !== payload)
+            }
         default:
             return state
     }

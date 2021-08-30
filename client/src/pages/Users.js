@@ -6,7 +6,7 @@ import Footer from '../components/Footer';
 import {UsersContext} from "../context/UsersContext"
 function Users() {
     const {userState: {users, usersLoading}, getUsers, createUser} = useContext(UsersContext)
-    useEffect(() => getUsers(), [10000])
+    useEffect(() => getUsers(), [1])
     const [newUser, setNewUser] = useState({
         userEmail: "",
         userName: "",

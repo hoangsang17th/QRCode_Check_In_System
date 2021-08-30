@@ -19,7 +19,7 @@ const PortsContextProvider = ({children}) => {
                 dispath({type: "PORTS_LOADED_SUCCESS", payload: response.data.viewPorts})
             }
         } catch (error) {
-            dispath({type: "PORTS_LOADED_FAIL"})
+            dispath({type: "PORTS_LOADED_FAIL", payload: null})
         }
     }
     const createPort = async newPort => {
@@ -40,8 +40,25 @@ const PortsContextProvider = ({children}) => {
             }
         }
     }
+    const deletePort = async portId =>{
+        try {
+            
+            const response = await axios.delete(`${apiUrl}/Ports/delete/${portId}`)
+            if(response.data.success){
+                dispath({type: "DELETE_PORT_SUCCESS", payload: portId})
+            }
+            
+        } catch (error) {
+            if(error.response.data){
+                return error.response.data
+            }
+            else {
+                return {success: false, message: error.message}
+            }
+        }
+    }
     // Port context data
-    const portContextData = {portState, getPorts, createPort}
+    const portContextData = {portState, getPorts, createPort, deletePort}
     return (
         <PortsContext.Provider value = {portContextData}>
             {children}

@@ -1,7 +1,7 @@
 import HeaderBar from '../components/HeaderBar';
 import TopBar from '../components/TopBar';
 import Footer from '../components/Footer';
-import React, {useContext, useEffect, useState} from 'react'
+import React, {useContext, useState} from 'react'
 import {AuthContext} from "../context/AuthContext"
 import { useHistory } from 'react-router-dom';
 var moment = require('moment')
@@ -30,7 +30,7 @@ function Profile(){
     setUpdateProfile({ ...updateProfile, [event.target.name]: event.target.value})
     const profileForm = async event => {
         event.preventDefault()
-        if(userName =="" ||userBirthday=="" ||userAddress =="" ||userPassword ==""){
+        if(userName === "" ||userBirthday === "" ||userAddress === "" ||userPassword === ""){
             alert("You can just leave the new password field blank!")
         }
         try {
@@ -38,7 +38,6 @@ function Profile(){
             
             if(profileData.success){
                 alert("User update success")
-                // Nếu mà thêm vào thành công thì xóa hết dữ liệu trong form
                 setUpdateProfile({
                     userEmail: user.userEmail,
                     userName: user.userName,
@@ -54,9 +53,6 @@ function Profile(){
             else {
                 alert("Incorrect Password")
             }
-            
-            // document.getElementById("cancel").click();
-            
         } catch (error) {
             console.log("FinTEST" + error.message)
         }

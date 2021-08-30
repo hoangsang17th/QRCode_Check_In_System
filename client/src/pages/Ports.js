@@ -1,20 +1,38 @@
 import $ from 'jquery'; 
-import React, {useContext, useEffect, useState, history} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import HeaderBar from '../components/HeaderBar';
 import TopBar from '../components/TopBar';
 import Footer from '../components/Footer';
 import {PortsContext} from "../context/PortsContext"
-import { useHistory } from 'react-router-dom';
+import { useParams } from "react-router";
+// import { useHistory } from 'react-router-dom';
+const queryString = require('query-string');
 function Ports() {
-    const history = useHistory()
-    const {portState: {ports, portsLoading}, getPorts, createPort} = useContext(PortsContext)
-    useEffect(() => getPorts(), [10000])
+    // const history = useHistory()
+    const {portState: {ports, portsLoading}, getPorts, createPort, deletePort} = useContext(PortsContext)
+    useEffect(() => getPorts(), [2])
     // Khai báo biến để lấy dũ liệu
     const [newPort, setNewPort] = useState({
         portName: "",
         portDescription: "",
         portStatus: true
-    })
+    }) 
+    // const url = "https://localhost:3000/Tickets?id=610f78feeb4b961728753c5c"
+    // const id = url - "https://localhost:3000/Tickets?id="
+    // const id = url.replace("https://localhost:3000/Tickets?id=", "")
+    
+    // const parsed = new URLSearchParams(url.search);
+    // const idToken = parsed.get("id");
+    // var parsed = queryString.parse(url.search);
+    // alert(idToken);.params.id
+    // alert(url.params);
+    // alert(parsed.id);
+    // const params = new URLSearchParams(url.search); 
+    // const _id = params.get('_id');
+    // alert(_id)
+    // let params = url.match.params._id
+    
+    // alert(params.toString)
     const {portName, portDescription, portStatus} = newPort
     const onChangeForm = event => 
     // Lấy dữ liêu dựa vào name của input
@@ -67,7 +85,8 @@ function Ports() {
                                 Maintenance
                             </div> 
                         }
-                        <div className="mx-1">
+                        {/* onclick={deletePort(port._id)} */}
+                        <div className="mx-1" >
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
                         </div>
                         <div className="mx-1">

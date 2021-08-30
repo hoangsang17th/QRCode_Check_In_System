@@ -5,13 +5,14 @@ import Footer from '../components/Footer';
 import QrReader from 'react-qr-reader'
 import Select from 'react-select'
 import {PortsContext} from "../context/PortsContext"
-
+import {TicketsContext} from "../context/TicketsContext"
+import {TypesContext} from "../context/TypesContext"
 
 
 function Scan() {
     let portsOptions = []
     const {portState: {ports, portsLoading}, getPorts} = useContext(PortsContext)
-    useEffect(() => getPorts(), [10000])
+    useEffect(() => getPorts(), [3])
     if(!portsLoading){
         ports.map(
             port => (
@@ -20,10 +21,23 @@ function Scan() {
         )
         
     }
+    const {ticketState: {ticket}, getTicketById} = useContext(TicketsContext)
+    const [port, setPorts] = useState([])
     const [qrData, setQRData ]= useState("")
     const handleScan = data => {
-        if(data){
+        if(data) {
             setQRData(data)
+            var ticketId = data.replace("https://phamhoangsang.tech/Tickets?id=", "")
+            alert(port.value)
+            getTicketById(ticketId)
+            alert(ticket.ticketType)
+        // Ở đây gọi làm getTicket ra và truyền id của vé đã lấy được
+        // _id, ticketStatus, ticketType
+        // Kiểm tra tình trạng vé là true hay false
+        // Nếu false trả về kết quả "Vé đã hết hạn (false)"
+        // Còn lại là true thì sẽ kiểm tra cổng vào và phân tích số cổng hợp lệ dựa trên thể loại vé
+        // Nếu hợp lệ đưa ra kết quả "Chào mừng bạn đến với trò chơi ... (true)"
+        // Không hợp lệ thì đưa ra kết quả "Vé không thể dùng cho loại trò chơi này (false)"
         }
     }
     
@@ -51,6 +65,7 @@ function Scan() {
                             <p className="h6 mt-2">PORT:</p>
                             <hr class="dropdown-divider"/>
                             <Select 
+                            onChange={setPorts}
                             options={portsOptions} 
                             className=" mt-2"
                             />

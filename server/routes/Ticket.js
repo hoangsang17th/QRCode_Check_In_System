@@ -90,6 +90,18 @@ router.get("/viewStaff/:id", verifyToken, async(req, res) => {
     }
 })
 
+router.get("/view/:id", verifyToken, async(req, res) => {
+    try { 
+        const ticketViewCondition = {_id: req.params.id}
+        const viewTicket = await Ticket.findOne(ticketViewCondition)
+        if(!viewTicket){
+            return res.status(401).json({success: false, message: `Ticket not found with Ticket ID =  ${req.params.id}`})
+        }
+        res.json({success: true, viewTicket})
+    } catch (error) {
+        console.log("FinTEST Ports: " + error.message)
+    }
+})
 router.get("/viewManager/:id",verifyTokenManager, async(req, res) => {
     try { 
         const ticketViewCondition = {_id: req.params.id}

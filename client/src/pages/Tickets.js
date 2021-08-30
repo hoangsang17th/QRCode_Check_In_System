@@ -26,9 +26,9 @@ function Tickets(){
     // Dựa vào phân quyền phía trên để phân loại dữ liệu hiển thị
     // Nếu mà nhân viên thì chỉ cho xem dữ liệu của chính bản thân
     // Nếu là Manager thì cho hiển thị tất cả dữ liệu của cả nhân viên và manager
-    useEffect(() => userPosition === "Manager"? getTicketsManager() : getTicketsStaff(), [10000])
+    useEffect(() => userPosition === "Manager"? getTicketsManager() : getTicketsStaff(), [2])
     // Gọi hàm hiển thị thể loại vé
-    useEffect(() => getTypes(), [10000])
+    useEffect(() => getTypes(), [1])
     // Có lẽ ngay đây gọi ra 1 hàm lấy 1 ID thể loại đầu tiên :))
     const [newTicket, setNewTicket] = useState({
         ticketCustomer: "",
@@ -76,7 +76,7 @@ function Tickets(){
                 <td>{ticket._id}</td>
                 <td>{ticket.ticketCustomer}</td>
                 <td>{ticket.ticketType.typeName }</td>
-                <td>{ticket.ticketType.typePrice}</td>
+                <td>{ticket.ticketPrice}</td>
                 <td>{ticket.createdAt }</td>
                 <td>{ticket.ticketUser.userName } {userPosition === "Manager"? "("+ticket.ticketUser.userPosition+")" : "" }</td>
                 <td className="justify-content-end text-right">
@@ -128,6 +128,8 @@ function Tickets(){
                                     </div>
                                     <div className="col-4">
                                         <select onChange={onChangeForm} name="ticketType" value={ticketType} className="form-control" required>
+                                            <option value="">Select...</option>
+
                                         {
                                             types.map(
                                                 type => 
@@ -162,7 +164,7 @@ function Tickets(){
                                         <img src={logo} className="img-thumbnail" alt="Logo QRCode" style={{width: 50, height: 50}}/>
                                     </div>
                                     <div className="col-12 text-center mt-3">
-                                        <p className="h4  text-uppercase">QR Code VKU</p>
+                                        <p className="h4  text-uppercase">Asia Park</p>
                                     </div>
                                 </div>
                                 <div className="row mt-2 text-center">
@@ -170,6 +172,8 @@ function Tickets(){
                                         <QRCode
                                             className="img-thumbnail"
                                             value='All our dreams can come true, if we have the courage to pursue them.'
+                                            // value='https://phamhoangsang.tech/Tickets?id=612ced9d7855713b68850b36'
+                                            
                                             size={240}
                                             level={'H'}
                                             // includeMargin={true}
