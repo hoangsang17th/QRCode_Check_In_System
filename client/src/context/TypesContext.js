@@ -9,6 +9,7 @@ const TypesContextProvider = ({children}) => {
     // State
     const [typesState, dispath] = useReducer(TypesReducer, {
         types: [],
+        typess: [],
         typesLoading: true
     })
     // Get all Typess
@@ -40,8 +41,18 @@ const TypesContextProvider = ({children}) => {
             }
         }
     }
+    const getTypeById = async typeId => {
+        try {
+            const response = await axios.get(`${apiUrl}/Types/view/${typeId}`)
+            if(response.data.success){
+                dispath({type: "TYPE_LOADED_SUCCESS", payload: response.data.viewTypes})
+            }
+        } catch (error) {
+            dispath({type: "TYPE_LOADED_FAIL"})
+        }
+    }
     // Port context data
-    const typesContextData = {typesState, getTypes, createType}
+    const typesContextData = {typesState, getTypes, createType, getTypeById}
     return (
         <TypesContext.Provider value = {typesContextData}>
             {children}

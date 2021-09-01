@@ -26,9 +26,15 @@ export const TicketsReducer = (state, action)=>{
         case "TICKET_LOADED_SUCCESS":
         
             return {
-                ...state,
+                state,
                 ticket: payload,
-                ticketsLoading: false
+                ticketLoading: false
+            }
+        case "TICKET_LOADED_FAIL":
+    
+            return {
+                ticket: [],
+                ticketLoading: false
             }
         default:
             return state

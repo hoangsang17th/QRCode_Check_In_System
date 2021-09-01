@@ -9,6 +9,7 @@ const TicketsContextProvider = ({children}) => {
     // State
     const [ticketState, dispath] = useReducer(TicketsReducer, {
         tickets: [],
+        ticket: [],
         ticketsLoading: true
     })
     // Get all Tickets
@@ -58,7 +59,7 @@ const TicketsContextProvider = ({children}) => {
                 dispath({type: "TICKET_LOADED_SUCCESS", payload: response.data.viewTicket})
             }
         } catch (error) {
-            dispath({type: "TICKETS_LOADED_FAIL"})
+            dispath({type: "TICKET_LOADED_FAIL"})
         }
     }
     // Port context data

@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Type = require("../models/Types")
 const verifyTokenManager = require("../middleware/Auth_Manager")
+const verifyToken = require("../middleware/Auth")
 
 router.post("/create", verifyTokenManager, async(req, res) => {
     const{typeName, typePrice, typePorts, typeStatus} = req.body
@@ -25,7 +26,7 @@ router.post("/create", verifyTokenManager, async(req, res) => {
     }
 })
 
-router.get("/view", verifyTokenManager, async(req, res) => {
+router.get("/view", verifyToken, async(req, res) => {
     try {
         const viewTypes = await Type.find().populate("typeUser", [
             "userName",
@@ -44,10 +45,7 @@ router.get("/view", verifyTokenManager, async(req, res) => {
 router.get("/view/:id", verifyTokenManager, async(req, res) => {
     try {
         const typeViewCondition = {_id: req.params.id}
-        const viewTypes = await Type.find(typeViewCondition).populate("typeUser", [
-            "userName",
-            "userEmail"
-        ]).populate("typePorts", [
+        const viewTypes = await Type.findOne(typeViewCondition).populate("typePorts", [
             "portName",
             "portDescription",
             "portStatus"

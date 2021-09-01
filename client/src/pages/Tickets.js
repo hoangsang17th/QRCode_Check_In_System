@@ -26,9 +26,9 @@ function Tickets(){
     // Dựa vào phân quyền phía trên để phân loại dữ liệu hiển thị
     // Nếu mà nhân viên thì chỉ cho xem dữ liệu của chính bản thân
     // Nếu là Manager thì cho hiển thị tất cả dữ liệu của cả nhân viên và manager
-    useEffect(() => userPosition === "Manager"? getTicketsManager() : getTicketsStaff(), [2])
+    useEffect(() => userPosition === "Manager"? getTicketsManager() : getTicketsStaff(), [3])
     // Gọi hàm hiển thị thể loại vé
-    useEffect(() => getTypes(), [1])
+    useEffect(() => getTypes(), [3])
     // Có lẽ ngay đây gọi ra 1 hàm lấy 1 ID thể loại đầu tiên :))
     const [newTicket, setNewTicket] = useState({
         ticketCustomer: "",
