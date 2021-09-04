@@ -46,11 +46,14 @@ router.get("/view/:id", verifyTokenManager, async(req, res) => {
     try {
         const typeViewCondition = {_id: req.params.id}
         const viewTypes = await Type.findOne(typeViewCondition).populate("typePorts", [
+            "_id",
             "portName",
             "portDescription",
             "portStatus"
         ])
-        res.json({success: true, viewTypes})
+        res.json({
+            typePorts: viewTypes.typePorts,
+            typeStatus: viewTypes.typeStatus})
     } catch (error) {
         console.log("FinTEST types: " + error.message)
     }

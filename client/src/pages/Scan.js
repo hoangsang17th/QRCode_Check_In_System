@@ -57,7 +57,8 @@ function Scan() {
             setQRData(data)
             var ticketId = data.replace("https://phamhoangsang.tech/Tickets?id=", "")
             
-            await axios.get(`${apiUrl}/Tickets/view/${ticketId}`).then(viewTicket => setTicket(viewTicket))
+            const getTicketById = () => { axios.get(`${apiUrl}/Tickets/view/${ticketId}`).then(res => setTicket(res.data))}
+            await getTicketById()
             // await axios.get(`${apiUrl}/Types/view/${ticket.ticketType}`).then(data => setType(data.data))
             // alert(port.value)
             // Ở đây gọi làm getTicket ra và truyền id của vé đã lấy được
@@ -66,7 +67,7 @@ function Scan() {
             // Khi mà lấy xong rồi thì nó vẫn chưa có dữ liệu mới vào
             // Nó vẫn hiển thị dữ liệu cũ trước đó
             // Nghĩa là nó chậm hơn 1 bước
-            alert("ID "+ticket._id+" \nStatus: "+ticket.ticketStatus+"\nType: "+ticket.ticketType)
+            // alert("ID "+ticket._id+" \nStatus: "+ticket.ticketStatus+"\nType: "+ticket.ticketType)
             if(ticket._id  === ticketId){
                 // Nếu có dữ liệu và dữ liệu hiện tại khớp với id vé thì tiếp tục kiểm tra
                 // Kiểm tra tình trạng vé là true hay false
@@ -74,32 +75,38 @@ function Scan() {
                     // Nếu vé còn hợp lệ
                     // Gọi hàm kiểm tra thể loại vé và đưa ra các loại cổng hợp lệ
                     // await getTypeById(ticket.ticketType)
-
+                    const getTypeById = () => { axios.get(`${apiUrl}/Types/view/${ticket.ticketType}`).then(res => setType(res.data))}
+                    await getTypeById()
                     
-                    // var portData = typess.typePorts.map(port => ({_id: port._id, portName: port.portName, portStatus: port.portStatus}))
-                        // var portData = typess.typePorts.map(
+                    if(type.typeStatus){
+                        // var portData = typess.typePorts.map(port => ({_id: port._id, portName: port.portName, portStatus: port.portStatus}))
+                        // var portData = type.typePorts.map(
                         //     typePortData => ({
-                        //         _id: typePortData._id, 
+                        //         id: typePortData._id, 
                         //         status: typePortData.portStatus
-                        //     }))
-                            // for(var i =0; typess.typePorts.length; i++){
-                            //     console.log(typess.typePorts[i])
-                                // if(typess.typePorts[i]._id === port.value){
-                                //     if(typess.typePorts[i].portStatus){
-                                //         setEndResult(true)
-                                //         alert("Wish you happy gaming!")
-                                //     }
-                                //     else {
-                                //         alert("This game is under maintenance. Sorry for this problem!")
-                                //     }
+                        //     })
+                        // )
+                        // for(var i =0; type.typePorts.length; i++){
+                        //     if(type.typePorts[i] === port.value){
+                                // if(type.typePorts_Status[i]){
+                                    setEndResult(true)
+                                    alert("Wish you happy gaming!")
                                 // }
-                            // }
+                                // else {
+                                //     alert("This game is under maintenance. Sorry for this problem!")
+                                // }
+                        //     }
+                        // }
                     // console.log("Hello "+ type.typePorts)
                     // alert("Wish you happy gaming!")
                     
                     // if(!endResult){
                     //     alert("Your ticket does not include this game!")
                     // }
+                    }
+                    else {
+                        alert("The type of ticket you purchased has been temporarily locked. Please contact the staff closest to you for assistance")
+                    }
                 }
                 else{
                     // Nếu false trả về kết quả "Vé đã hết hạn (false)"
@@ -120,7 +127,7 @@ function Scan() {
         }
     }
     
-    useEffect(() => setTimeout(function(){ setEndResult(false) }, 5000))
+    // useEffect(() => setTimeout(function(){ setEndResult(false) }, 5000))
     useEffect(() => endResult)
     return (
         <div>

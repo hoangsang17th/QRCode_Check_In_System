@@ -97,7 +97,13 @@ router.get("/view/:id", verifyToken, async(req, res) => {
         if(!viewTicket){
             return res.status(401).json({success: false, message: `Ticket not found with Ticket ID =  ${req.params.id}`})
         }
-        res.json({success: true, viewTicket})
+        res.json({
+            _id: viewTicket._id,
+            ticketStatus: viewTicket.ticketStatus,
+            ticketType: viewTicket.ticketType,
+            ticketCustomer: viewTicket.ticketCustomer,
+
+        })
     } catch (error) {
         console.log("FinTEST Ports: " + error.message)
     }
